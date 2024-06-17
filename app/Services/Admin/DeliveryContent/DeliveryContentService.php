@@ -3,8 +3,6 @@
 namespace App\Services\Admin\DeliveryContent;
 
 use App\Models\DeliveryContent;
-use App\Models\DeliveryFeature;
-use App\Models\DeliveryList;
 use App\Services\Admin\Service;
 
 class DeliveryContentService extends Service
@@ -15,26 +13,49 @@ class DeliveryContentService extends Service
             ->create([
                 'description' => $this->translateService->createTranslate($data['description']),
                 'content' => $this->translateService->createTranslate($data['content']),
+                'image' => isset($data['image']) ? $this->fileService->saveFile($data['image'], DeliveryContent::IMAGE_PATH) : null,
             ]);
     }
 
     public function update(DeliveryContent $deliveryContent, array $data)
     {
         $deliveryContent->description = $this->translateService->updateTranslate($deliveryContent->description, $data['description']);
-        if ($deliveryContent->content) {
-            $deliveryContent->content = $this->translateService->updateTranslate($deliveryContent->content, $data['content']);
-        } else {
-            $deliveryContent->content = $this->translateService->createTranslate($data['content']);
+        $deliveryContent->content = $this->translateService->updateTranslate($deliveryContent->content, $data['content']);
+        if (isset($data['image'])) {
+            $deliveryContent->image = $this->fileService->saveFile($data['image'], DeliveryContent::IMAGE_PATH, $deliveryContent->image);
         }
         return $deliveryContent->save();
     }
 
-    public function getDeliveryData()
+    public function delete(DeliveryContent $deliveryContent)
+    {
+        $deliveryContent->descriptionTranslate?->delete();
+        $deliveryContent->contentTranslate?->delete();
+        if ($deliveryContent->image) {
+            $this->fileService->deleteFile($deliveryContent->image, DeliveryContent::IMAGE_PATH);
+        }
+        return $deliveryContent->delete();
+    }
+
+    public function deleteImage(DeliveryContent $deliveryContent)
+    {
+        if ($deliveryContent->image) {
+            $this->fileService->deleteFile($deliveryContent->image, DeliveryContent::IMAGE_PATH);
+        }
+        return $deliveryContent->update(['image' => null]);
+    }
+
+    public function getDeliveryContent()
     {
         return [
-            'deliveryContents' => DeliveryContent::query()->withTranslations()->get(),
-            'deliveryFeatures' => DeliveryFeature::query()->withTranslations()->get(),
-            'deliveryLists' => DeliveryList::query()->withTranslations()->get(),
+            'deliveryContent' => DeliveryContent::query()->withTranslations()->first()
+        ];
+    }
+
+    public function getDeliveryContents()
+    {
+        return [
+            'deliveryContent' => DeliveryContent::query()->withTranslations()->get()
         ];
     }
 }

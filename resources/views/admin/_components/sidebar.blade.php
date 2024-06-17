@@ -168,9 +168,9 @@
                             </li>
                         @endif
 
-                        @if(\Route::has('admin.paymentMethods.index'))
+                        @if(\Route::has('admin.paymentContent.index'))
                             <li class="nav-item">
-                                <a href="{{ route('admin.paymentMethods.index') }}"
+                                <a href="{{ route('admin.paymentContent.index') }}"
                                    class="nav-link ">
                                     <i class="nav-icon fas fa-credit-card"></i>
                                     <p>Оплата</p>

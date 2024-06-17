@@ -9,11 +9,11 @@ class StoreAboutUsContentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required|array',
-            'description.*' => 'required',
+            'description' => 'nullable|array',
+            'description.*' => 'nullable',
             'content' => 'nullable|array',
             'content.*' => 'nullable',
-            'image' => 'required|image|max:3072',
+            'image' => 'nullable|image|max:3072',
         ];
     }
 }

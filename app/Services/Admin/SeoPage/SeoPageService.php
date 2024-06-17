@@ -4,6 +4,7 @@ namespace App\Services\Admin\SeoPage;
 
 use App\Models\SeoPage;
 use App\Services\Admin\Service;
+use Illuminate\Support\Facades\Log;
 
 class SeoPageService extends Service
 {
@@ -26,7 +27,10 @@ class SeoPageService extends Service
         $seoPage->meta_title = $this->translateService->updateTranslate($seoPage->meta_title, $data['meta_title']);
         $seoPage->meta_description = $this->translateService->updateTranslate($seoPage->meta_description, $data['meta_description']);
         $seoPage->meta_keyword = $this->translateService->updateTranslate($seoPage->meta_keyword, $data['meta_keyword']);
-        $seoPage->page = $data['page'];
+        if (isset($data['page']))
+        {
+            $seoPage->page = $data['page'];
+        }
         $seoPage->title = $this->translateService->updateTranslate($seoPage->title, $data['title']);
         $seoPage->is_active = $data['is_active'] ?? 0;
         $seoPage->position = $data['position'] ?? SeoPage::lastPosition();

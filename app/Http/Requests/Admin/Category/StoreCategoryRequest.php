@@ -20,9 +20,7 @@ class StoreCategoryRequest extends FormRequest
             'is_important' => 'nullable|in:0,1',
             'position' => 'required|integer',
             'filters' => 'nullable|array',
-            'filters.*' => 'nullable',
-
-            'image' => 'required|image|max:4096',
+            'filters.*' => 'nullable'
         ];
     }
 }

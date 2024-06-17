@@ -2,157 +2,79 @@
 
 @section('title', 'Доставка')
 
-@push('styles')
-    <style>
-        .h2, h2 {
-            font-size: 1rem;
-        }
-    </style>
-@endpush
-
 @section('content')
-    {{--    <div class="content-header">--}}
-    {{--        <div class="container">--}}
-    {{--            <div class="row">--}}
-    {{--                <div class="col-12">--}}
-    {{--                    <h5 class="m-0">Доставка особенности</h5>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
+    <div class="content-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="m-0">Доставка</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section class="content">
         <div class="container">
             <div class="row">
                 @include('admin._components.alert')
 
-                @includeIf('admin.deliveryFeatures.indexComponent')
-
-                @includeIf('admin.deliveryLists.indexComponent')
-
                 <div class="col-12">
-                    <h5 class="mb-3">Доставка контент</h5>
-                </div>
-
-                <div class="col-12">
-                    @if(!count($deliveryContents))
-                        <div class="card-tools flex-wrap justify-content-between mb-2 mb-md-3">
-                            <a href="{{ route('admin.deliveryContents.create') }}"
-                               class="btn btn-success btn-sm" title="@lang('messages.add')">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                @lang('messages.add')
-                            </a>
-                        </div>
-                    @endif
-
-                    <div class="info-box info-card flex-column shadow-none">
-                        <div class="table-responsive">
-                            <table class="table table-hover not-styles">
-                                <thead class="thead">
-                                <tr>
-                                    <th>@lang('validation.attributes.title')</th>
-                                    <th>@lang('validation.attributes.description')</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                @forelse($deliveryContents as $deliveryContent)
-                                    <tr>
-                                        <td style="white-space: normal">{!! $deliveryContent->descriptionTranslate?->ru !!}</td>
-                                        <td style="white-space: normal">{!! $deliveryContent->contentTranslate?->ru !!}</td>
-                                        <td>
-                                            <div class="card-tools">
-                                                <a href="{{ route('admin.deliveryContents.edit', ['deliveryContent' => $deliveryContent]) }}"
-                                                   title="@lang('messages.edit')"
-                                                   class="btn btn-primary btn-sm">
-                                                    @lang('messages.edit')
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td align="center" class="text-danger p-2" colspan="3">
-                                            Доставка контент не найдено
-                                        </td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="card-tools flex-wrap justify-content-between mb-2 mb-md-3">
+                        <a href="{{ route('admin.deliveryContents.create') }}"
+                           class="btn btn-success btn-sm" title="@lang('messages.add')">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            @lang('messages.add')
+                        </a>
                     </div>
-                </div>
 
+                   @if(!count($deliveryContents))
+                        <div class="alert alert-danger alert-dismissible border-0">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <p class="m-0"><i class="icon fas fa-ban"></i> Доставка контент не найдено </p>
+                        </div>
+                    @else
+                    <div class="info-box info-card flex-column shadow-none">
+                    <div class="table-responsive" id="for_sort">
+                        <table class="table table-hover">
+                            <thead class="thead">
+                            <tr>
+                                <th>#ID</th>
+                                <th>Заголовок</th>
+                                <th>Описание</th>
+                                <th>Изображение</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($deliveryContents as $content)
+                                <tr>
+                                    <td>{{ $content->id }}</td>
+                                    <td style="white-space: normal">
+                                        {{ Str::limit($content->descriptionTranslate?->ru, 200) }}
+                                    </td>
+                                    <td style="white-space: normal">{{ Str::limit($content->contentTranslate?->ru, 200) }}</td>
+                                    <td>
+                                        @if(isset($content->image))
+                                            <img src="{{ url($content->image) }}" alt="{{ url($content->image) }}" width="200px">
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.deliveryContents.edit', ['deliveryContent' => $content->id]) }}"
+                                            title="@lang('messages.edit')"
+                                            class="btn btn-primary btn-icon">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                                    
+                                    </div>
+                                </div>
+                            @endif
+                </div>
             </div>
         </div>
     </section>
 @endsection
-@push('scripts')
-    <script>
-        $('.update_is_active_1').click(function (e) {
-            let dataId = $(this).attr('data-id')
-            const _token = $('meta[name="csrf-token"]').attr('content');
-
-            if ($(this).prop('checked')) {
-                $.ajax({
-                    method: "POST",
-                    url: `/admin/deliveryFeatures/${dataId}/updateIsActive`,
-                    data: {
-                        _token: _token,
-                        is_active: 1,
-                        data_id: dataId,
-                    },
-                    success: (response) => {
-                        console.log(response.status)
-                    }
-                })
-            } else {
-                $.ajax({
-                    method: "POST",
-                    url: `/admin/deliveryFeatures/${dataId}/updateIsActive`,
-                    data: {
-                        _token: _token,
-                        is_active: 0,
-                        data_id: dataId,
-                    },
-                    success: (response) => {
-                        console.log(response.status)
-                    }
-                })
-            }
-        });
-        $('.update_is_active_2').click(function (e) {
-            let dataId = $(this).attr('data-id')
-            const _token = $('meta[name="csrf-token"]').attr('content');
-
-            if ($(this).prop('checked')) {
-                $.ajax({
-                    method: "POST",
-                    url: `/admin/deliveryLists/${dataId}/updateIsActive`,
-                    data: {
-                        _token: _token,
-                        is_active: 1,
-                        data_id: dataId,
-                    },
-                    success: (response) => {
-                        console.log(response.status)
-                    }
-                })
-            } else {
-                $.ajax({
-                    method: "POST",
-                    url: `/admin/deliveryLists/${dataId}/updateIsActive`,
-                    data: {
-                        _token: _token,
-                        is_active: 0,
-                        data_id: dataId,
-                    },
-                    success: (response) => {
-                        console.log(response.status)
-                    }
-                })
-            }
-        });
-    </script>
-@endpush

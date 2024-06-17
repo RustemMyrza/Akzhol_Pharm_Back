@@ -39,6 +39,7 @@ class FilterItem extends Model
         'title',
         'position',
         'is_active',
+        'filter_id'
     ];
 
     protected $hidden = [

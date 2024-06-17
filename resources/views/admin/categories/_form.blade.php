@@ -53,36 +53,18 @@
             <select id="filters" class="form-control select2" name="filters[]" multiple="multiple"
                     data-placeholder="Выберите фильтр" style="width: 100%;">
                 @forelse($filters as $filter)
-                    <option {{ isset($category) && in_array($filter->id, $categoryFilters) ? 'selected'
-                            : (old('filters') && in_array($filter->id, old('filters')) ? 'selected' : '') }}
+                    <option {{
+                        isset($category) &&
+                        in_array($filter->id, $categoryFilters) ? 'selected': (old('filters') &&
+                        in_array($filter->id, old('filters')) ? 'selected' : '')
+                    }}
                             value="{{ $filter->id }}">
-                        {{ $filter->titleTranslate?->ru}}
+                        {{ $filter->titleTranslate->ru}}
                     </option>
                 @empty
                     <option disabled>Фильтры не найдены</option>
                 @endforelse
             </select>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="form-group required">
-            <label for="image" class="control-label">@lang('validation.attributes.image_size', ['size' => 4]) </label>
-            <div class="custom-file @error('image') is-invalid @enderror">
-                <input type="file" name="image" class="custom-file-input" id="image"
-                       accept="image/*" onchange="loadFile(event)">
-                <label class="custom-file-label" for="image">Выберите изображение</label>
-            </div>
-
-            @error('image')
-            <span class="error invalid-feedback"> {{ $message }} </span>
-            @enderror
-
-            @if(isset($category) && $category->image_url)
-                <img id="image-preview" class="rounded product-edit-image" src="{{ $category->image_url }}" alt="">
-            @else
-                <img id="image-preview" class="rounded product-edit-image" style="display: none" alt="">
-            @endif
         </div>
     </div>
 

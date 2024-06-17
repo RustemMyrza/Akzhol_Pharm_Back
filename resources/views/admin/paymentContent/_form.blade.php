@@ -23,19 +23,20 @@
                         <textarea type="text" name="description[{{ $key }}]" id="description-{{ $key }}" cols="30"
                                   class="form-control ckeditor4 @error('description.' . $key) is-invalid @enderror"
                                   rows="15"
-                        >{{ isset($deliveryContent) ? $deliveryContent->descriptionTranslate?->{$key} : (old('description.'.$key) ?? '') }}</textarea>
+                        >{{ isset($paymentContent) ? $paymentContent->descriptionTranslate?->{$key} : (old('description.'.$key) ?? '') }}</textarea>
                         @error('description.' . $key)
                         <span class="error invalid-feedback">{{ $message }} </span>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="content-{{ $key }}" class="control-label">
-                            @lang('validation.attributes.content') ({{ $key }})
+                            Контент ({{ $key }})
                         </label>
                         <textarea type="text" name="content[{{ $key }}]" id="content-{{ $key }}" cols="30"
                                   class="form-control ckeditor4 @error('content.' . $key) is-invalid @enderror"
                                   rows="15"
-                        >{{ isset($deliveryContent) ? $deliveryContent->contentTranslate?->{$key} : (old('content.'.$key) ?? '') }}</textarea>
+                        >{{ isset($paymentContent) ? $paymentContent->contentTranslate?->{$key} : (old('content.'.$key) ?? '') }}</textarea>
                         @error('content.' . $key)
                         <span class="error invalid-feedback">{{ $message }} </span>
                         @enderror
@@ -47,6 +48,7 @@
         </div>
     </div>
 
+
     <div class="col-md-12">
         <div class="form-group required">
             <label for="image" class="control-label">@lang('validation.attributes.image_size', ['size' => 3]) </label>
@@ -55,12 +57,12 @@
             @error('image')
             <span class="error invalid-feedback"> {{ $message }} </span>
             @enderror
-            @if(isset($deliveryContent) && $deliveryContent->image_url != null)
-                <img id="image-preview" class="rounded about-us-image-edit" src="{{ $deliveryContent->image_url }}"
+            @if(isset($paymentContent) && $paymentContent->image_url != null)
+                <img id="image-preview" class="rounded about-us-image-edit" src="{{ $paymentContent->image_url }}"
                      alt="">
                 <button type="button" class="btn btn-sm btn-danger"
                         id="deleteImage"
-                        data-id="{{ $deliveryContent->id }}">
+                        data-id="{{ $paymentContent->id }}">
                     @lang('messages.delete')
                 </button>
             @else

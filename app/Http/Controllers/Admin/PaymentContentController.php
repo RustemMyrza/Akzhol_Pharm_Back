@@ -3,27 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\AboutUsContent\StoreAboutUsContentRequest;
-use App\Http\Requests\Admin\AboutUsContent\UpdateAboutUsContentRequest;
-use App\Models\AboutUsContent;
-use App\Services\Admin\AboutUsContent\AboutUsContentService;
+use App\Http\Requests\Admin\PaymentContent\StorePaymentContentRequest;
+use App\Http\Requests\Admin\PaymentContent\UpdatePaymentContentRequest;
+use App\Models\Payment;
+use App\Models\PaymentContent;
+use App\Services\Admin\PaymentContent\PaymentContentService;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 
-class AboutUsContentController extends Controller
+class PaymentContentController extends Controller
 {
-    public AboutUsContentService $service;
+    public PaymentContentService $service;
 
-    public function __construct(AboutUsContentService $aboutUsContentService)
+    public function __construct(PaymentContentService $paymentContentService)
     {
-        $this->service = $aboutUsContentService;
+        $this->service = $paymentContentService;
     }
 
     public function index()
     {
         try {
-            $data['aboutUsContent'] = $this->service->getAboutUsContent();
-            return view('admin.aboutUsContents.index', $this->service->getAboutUsContents());
+            $data['paymentContent'] = $this->service->getPaymentContents();
+            return view('admin.paymentContent.index', $this->service->getPaymentContents());
         } catch (\Exception $exception) {
             return backPageError($exception->getMessage());
         }
@@ -32,39 +33,39 @@ class AboutUsContentController extends Controller
     public function create()
     {
         try {
-            return view('admin.aboutUsContents.create');
+            return view('admin.paymentContent.create');
         } catch (\Exception $exception) {
             return backPageError($exception->getMessage());
         }
     }
 
-    public function store(StoreAboutUsContentRequest $request)
+    public function store(StorePaymentContentRequest $request)
     {
         try {
             return DB::transaction(function () use ($request) {
                 $this->service->create($request->validated());
-                return redirectPage('admin.aboutUsContents.index', trans('messages.success_created'));
+                return redirectPage('admin.paymentContent.index', trans('messages.success_created'));
             });
         } catch (\Exception $exception) {
             return back()->withInput()->withErrors($exception->getMessage());
         }
     }
 
-    public function edit(AboutUsContent $aboutUsContent)
+    public function edit(PaymentContent $paymentContent)
     {
         try {
-            $data['aboutUsContent'] = $aboutUsContent->load('descriptionTranslate', 'contentTranslate');
-            return view('admin.aboutUsContents.edit', $data);
+            $data['paymentContent'] = $paymentContent->load('descriptionTranslate', 'contentTranslate');
+            return view('admin.paymentContent.edit', $data);
         } catch (\Exception $exception) {
             return backPageError($exception->getMessage());
         }
     }
 
-    public function update(AboutUsContent $aboutUsContent, UpdateAboutUsContentRequest $request)
+    public function update(PaymentContent $paymentContent, UpdatePaymentContentRequest $request)
     {
         try {
-            return DB::transaction(function () use ($aboutUsContent, $request) {
-                $this->service->update($aboutUsContent, $request->validated());
+            return DB::transaction(function () use ($paymentContent, $request) {
+                $this->service->update($paymentContent, $request->validated());
                 return backPage(trans('messages.success_updated'));
             });
         } catch (\Exception $exception) {
@@ -72,10 +73,10 @@ class AboutUsContentController extends Controller
         }
     }
 
-    public function deleteImage(AboutUsContent $aboutUsContent)
+    public function deleteImage(PaymentContent $paymentContent)
     {
         try {
-            $this->service->deleteImage($aboutUsContent);
+            $this->service->deleteImage($paymentContent);
             notify()->success('', trans('messages.success_deleted'));
             return new JsonResource(['status' => true]);
         } catch (\Exception $exception) {

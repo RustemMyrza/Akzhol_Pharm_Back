@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Заполнить SEO')
+@section('title', trans('messages.add'))
 
 @section('content')
     <div class="content-header">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h5 class="m-0">Заполнить SEO</h5>
+                    <h5 class="m-0">@lang('messages.add') </h5>
                 </div>
             </div>
         </div>
@@ -17,16 +17,18 @@
         <div class="container">
             <div class="row">
                 @include('admin._components.alert')
+
                 <div class="col-12">
-                    <a class="btn btn-warning mb-4" href="{{ route('admin.seoPages.index') }}" title="@lang('messages.back')">
+                    <a href="{{ route('admin.paymentContent.index') }}" title="@lang('messages.back')"
+                       class="btn btn-warning btn-sm mb-3">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                         @lang('messages.back')
                     </a>
                     <div class="info-box flex-column shadow-none">
-                        <form method="POST" action="{{ route('admin.seoPages.update', ['seoPage' => $seoPage]) }}">
-                            @method('PATCH')
+                        <form method="POST" action="{{ route('admin.paymentContent.store') }}" enctype="multipart/form-data">
                             @csrf
-                            @include('admin.seoPages._form',['type' => 'edit'])
+                            @method('POST')
+                            @include('admin.paymentContent._form')
                         </form>
                     </div>
                 </div>
@@ -37,4 +39,6 @@
 
 @push('scripts')
     @includeIf('admin._components.formTabs')
+    @includeIf('admin._components.ckeditor4Scripts')
+    @includeIf('admin._components.loadFileScript')
 @endpush

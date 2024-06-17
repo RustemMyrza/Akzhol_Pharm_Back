@@ -9,10 +9,10 @@ class StoreHomeContentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|array',
-            'title.*' => 'required',
-            'description' => 'required|array',
-            'description.*' => 'required',
+            'title' => '|array',
+            'title.*' => '',
+            'description' => '|array',
+            'description.*' => '',
         ];
     }
 }

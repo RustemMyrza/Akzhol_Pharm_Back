@@ -13,7 +13,7 @@ class UpdateSeoPageRequest extends FormRequest
         return [
             'title' => 'required|array',
             'title.*' => 'required',
-            'page' => 'required|string|max:100|unique:seo_pages,page,' . $seoPage->id,
+            'page' => 'nullable|string|max:100|unique:seo_pages,page,' . $seoPage->id,
 
             'meta_title' => 'nullable|array',
             'meta_title.*' => 'nullable',

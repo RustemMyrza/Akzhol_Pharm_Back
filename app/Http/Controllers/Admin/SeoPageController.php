@@ -11,6 +11,7 @@ use App\Services\Admin\SeoPage\SeoPageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 
 class SeoPageController extends Controller
 {
@@ -52,7 +53,7 @@ class SeoPageController extends Controller
     {
         try {
             return DB::transaction(function () use ($seoPage, $request) {
-                 $this->service->update($seoPage, $request->validated());
+                $this->service->update($seoPage, $request->validated());
                 return redirectPage('admin.seoPages.index', trans('messages.success_updated'));
             });
         } catch (\Exception $exception) {
@@ -74,6 +75,7 @@ class SeoPageController extends Controller
 
     public function updateIsActive(UpdateIsActiveRequest $request): JsonResponse
     {
+        Log::info("update is active OK");
         try {
             SeoPage::query()
                 ->find($request->input('data_id'))

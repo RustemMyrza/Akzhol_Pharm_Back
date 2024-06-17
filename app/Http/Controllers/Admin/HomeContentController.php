@@ -21,11 +21,7 @@ class HomeContentController extends Controller
     public function index()
     {
         try {
-            $data = $this->service->getHomeContent();
-            if ($data['homeContent'])
-                return redirect()->route('admin.homeContents.edit', $data);
-            else
-                return view('admin.homeContents.index', $this->service->getHomeContents());
+            return view('admin.homeContents.index', $this->service->getHomeContents());
         } catch (\Exception $exception) {
             return backPageError($exception->getMessage());
         }
@@ -50,6 +46,16 @@ class HomeContentController extends Controller
         } catch (\Exception $exception) {
             return back()->withInput()->withErrors($exception->getMessage());
         }
+    }
+
+    public function newEdit ()
+    {
+        $homeContent = HomeContent::query()->with([
+            'titleTranslate',
+            'descriptionTranslate'
+        ])->get();
+        return view('admin.homeContents.edit', $homeContent);
+        return $homeContent;
     }
 
     public function edit(HomeContent $homeContent)

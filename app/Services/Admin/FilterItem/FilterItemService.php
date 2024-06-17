@@ -15,6 +15,7 @@ class FilterItemService extends Service
 
     public function create(Filter $filter, array $data)
     {
+
         return FilterItem::query()
             ->create([
                 'title' => $this->translateService->createTranslate($data['title']),

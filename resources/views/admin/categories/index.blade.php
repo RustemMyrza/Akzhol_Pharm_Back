@@ -33,7 +33,6 @@
                                 <thead class="thead">
                                 <tr>
                                     <th>#ID</th>
-                                    <th>@lang('validation.attributes.image')</th>
                                     <th>@lang('validation.attributes.title')</th>
                                     <th>Подкатегорий</th>
                                     <th>@lang('validation.attributes.status')</th>
@@ -46,9 +45,6 @@
                                 @forelse($categories as $category)
                                     <tr>
                                         <td data-original-id="{{ $category->id }}" data-id="{{ $category->id }}">{{ $category->id }}</td>
-                                       <td>
-                                           <img src="{{ $category->image_url }}" class="rounded category-index-image">
-                                       </td>
                                         <td>{{ $category->titleTranslate?->ru }}</td>
                                         <td>
                                             <a href="{{ route('admin.subCategories.index', ['category' => $category]) }}"

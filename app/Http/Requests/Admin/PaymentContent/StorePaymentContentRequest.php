@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\AboutUsContent;
+namespace App\Http\Requests\Admin\PaymentContent;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAboutUsContentRequest extends FormRequest
+class StorePaymentContentRequest extends FormRequest
 {
     public function rules(): array
     {

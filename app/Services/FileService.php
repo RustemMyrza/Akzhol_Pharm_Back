@@ -23,25 +23,20 @@ class FileService
 
         $fileName = $file->getClientOriginalName();
         $fileSize = $file->getSize();
-
         $fileNameReplaced = str_replace(' ', '_', $fileName);
-
         if (Storage::disk('custom')->exists($path . "/$fileNameReplaced")) {
             $fileNameReplaced = explode('.', $fileNameReplaced);
             $extension = array_pop($fileNameReplaced);
             $fileNameReplaced = join('', $fileNameReplaced) . "_" . rand(1, 99) . ".$extension";
         }
-
         Storage::disk('custom')->putFileAs($path, $file, $fileNameReplaced);
-
         if ($isFileSize) {
             return [
                 'name' => $fileNameReplaced,
                 'size' => $fileSize,
             ];
         }
-
-        return $fileNameReplaced;
+        return '/uploads/' . $path . '/' . $fileNameReplaced;
     }
 
     function createUploadedFile($filePath): UploadedFile

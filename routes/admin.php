@@ -134,10 +134,11 @@ Route::prefix('admin')->name('admin.')->scopeBindings()->group(function () {
     //     Route::post('/updateIsActive', [\App\Http\Controllers\Admin\SliderController::class, 'updateIsActive']);
     // });
 
-    Route::resource('paymentMethods', \App\Http\Controllers\Admin\PaymentMethodController::class);
-    Route::prefix('paymentMethods/{paymentMethod}')->name('paymentMethods.')->group(function () {
-        Route::post('/updateIsActive', [\App\Http\Controllers\Admin\PaymentMethodController::class, 'updateIsActive']);
+    Route::resource('paymentContent', \App\Http\Controllers\Admin\PaymentContentController::class);
+    Route::prefix('paymentContent/{paymentContent}')->name('paymentContent.')->group(function () {
+        Route::post('/updateIsActive', [\App\Http\Controllers\Admin\PaymentContentController::class, 'updateIsActive']);
     });
+    Route::get('homeContentsEdit', [\App\Http\Controllers\Admin\HomeContentController::class, 'newEdit']);
     Route::resource('homeContents', \App\Http\Controllers\Admin\HomeContentController::class)->except('show', 'destroy');
     Route::resource('catalogContents', \App\Http\Controllers\Admin\DealerContentController::class)->except('show', 'destroy');
     Route::resource('aboutUsContents', \App\Http\Controllers\Admin\AboutUsContentController::class)->except('show', 'destroy');

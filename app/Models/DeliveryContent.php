@@ -37,6 +37,8 @@ class DeliveryContent extends Model
 
     const CACHE_TIME = 60 * 60 * 24;
 
+    const IMAGE_PATH = 'images/delivery-images';
+
     public function descriptionTranslate(): HasOne
     {
         return $this->hasOne(Translate::class, 'id', 'description');
