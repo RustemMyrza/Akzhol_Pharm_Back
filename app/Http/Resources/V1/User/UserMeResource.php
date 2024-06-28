@@ -10,10 +10,10 @@ class UserMeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'name' => $this->name,
+            'surname' => $this->surname,
             'email' => $this->email,
-            'phone' => $this->phone,
+            'password' => $this->password,
             'created_at' => $this->created_at,
         ];
     }

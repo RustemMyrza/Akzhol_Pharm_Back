@@ -13,38 +13,61 @@
             <div class="glider"></div>
         </ul>
         <div class="tab-content" id="custom-tabs-two-tabContent">
-            @forelse(\App\Models\Translate::LANGUAGES_ASSOC as $key => $language)
-                <div class="tab-pane fade @if($loop->first) active in show @endif" id="{{ $key }}-tab-content"
-                     role="tabpanel" aria-labelledby="{{ $key }}-tab">
-                    <div class="form-group required ">
-                        <label for="address-{{ $key }}" class="control-label">
-                            @lang('validation.attributes.address') ({{ $key }})
-                        </label>
-                        <input class="form-control @error('address.' . $key) is-invalid @enderror"
-                               name="address[{{ $key }}]" type="text"
-                               id="address-{{ $key }}"
-                               value="{{ isset($contact) ? $contact->addressTranslate?->{$key} : (old('address.'.$key) ?? '') }}">
-                        @error('address.' . $key)
-                        <span class="error invalid-feedback">{{ $message }} </span>
-                        @enderror
-                    </div>
-                    <div class="form-group required ">
-                        <label for="work_time-{{ $key }}" class="control-label">
-                            @lang('validation.attributes.work_time') ({{ $key }})
-                        </label>
-                        <textarea
-                            class="form-control @error('work_time.' . $key) is-invalid @enderror"
-                            name="work_time[{{ $key }}]" type="text"
-                            id="work_time-{{ $key }}"
-                        >{{ isset($contact) ? $contact->workTimeTranslate?->{$key} : (old('work_time.'.$key) ?? '') }}</textarea>
-                        @error('work_time.' . $key)
-                        <span class="error invalid-feedback">{{ $message }} </span>
-                        @enderror
-                    </div>
-                </div>
-            @empty
-                @lang('messages.translates_not_found')
-            @endforelse
+        @forelse(\App\Models\Translate::LANGUAGES_ASSOC as $key => $language)
+    <div class="tab-pane fade @if($loop->first) active in show @endif" id="{{ $key }}-tab-content"
+         role="tabpanel" aria-labelledby="{{ $key }}-tab">
+         <div class="form-group required">
+            <label for="title[{{$key}}]" class="control-label">
+                @lang('validation.attributes.title') ({{ $key }})
+            </label>
+            <input class="form-control @error('title.' . $key) is-invalid @enderror" name="title[{{$key}}]" type="text"
+                id="title-{{$key}}" value="{{ isset($contents) ? $contents->titleTranslate->$key : '' }}">
+            @error('title.' . $key)
+            <span class="error invalid-feedback">{{ $message }} </span>
+            @enderror
+        </div>
+        <div class="form-group required">
+            <label for="description[{{$key}}]" class="control-label">
+                @lang('validation.attributes.description') ({{ $key }})
+            </label>
+                <textarea rows="4"
+                class="form-control @error('description.' . $key) is-invalid @enderror"
+                name="description[{{$key}}]" type="text" id="description-{{$key}}" maxlength="5000"
+                >{{ isset($contents) ? $contents->descriptionTranslate->$key : '' }}</textarea>
+                @error('description.' . $key)
+            <span class="error invalid-feedback">{{ $message }} </span>
+            @enderror
+        </div>
+        <div class="form-group required ">
+            <label for="address-{{ $key }}" class="control-label">
+                @lang('validation.attributes.address') ({{ $key }})
+            </label>
+            <input class="form-control @error('address.' . $key) is-invalid @enderror"
+                   name="address[{{ $key }}]" type="text"
+                   id="address-{{ $key }}"
+                   value="{{ isset($contact) ? $contact->addressTranslate?->{$key} : (old('address.' . $key) ?? '') }}">
+            @error('address.' . $key)
+            <span class="error invalid-feedback">{{ $message }} </span>
+            @enderror
+        </div>
+        <div class="form-group required ">
+            <label for="work_time-{{ $key }}" class="control-label">
+                @lang('validation.attributes.work_time') ({{ $key }})
+            </label>
+            <textarea
+                class="form-control @error('work_time.' . $key) is-invalid @enderror"
+                name="work_time[{{ $key }}]" type="text"
+                id="work_time-{{ $key }}"
+            >{{ isset($contact) ? $contact->workTimeTranslate?->{$key} : (old('work_time.' . $key) ?? '') }}</textarea>
+            @error('work_time.' . $key)
+            <span class="error invalid-feedback">{{ $message }} </span>
+            @enderror
+        </div>
+    </div>
+@empty
+    @lang('messages.translates_not_found')
+@endforelse
+
         </div>
     </div>
 

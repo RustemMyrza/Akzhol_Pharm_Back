@@ -6,7 +6,7 @@ use App\Exceptions\ApiErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Resources\V1\LoggedInResource;
-use App\Models\User;
+use App\Models\Client;
 use App\Services\Api\V1\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $user = User::query()->whereEmail($request->input('email'))->first();
+        $user = Client::query()->whereEmail($request->input('email'))->first();
 
         if (!$user) {
             throw new ApiErrorException(trans('messages.user_not_found'));

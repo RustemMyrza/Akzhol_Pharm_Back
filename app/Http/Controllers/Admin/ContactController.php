@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Contact\StoreContactRequest;
 use App\Http\Requests\Admin\Contact\UpdateContactRequest;
 use App\Models\Contact;
+use App\Models\ContactsContent;
 use App\Services\Admin\ContactService;
 use Illuminate\Support\Facades\DB;
+use App\Models\Translate;
 use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
@@ -25,13 +27,17 @@ class ContactController extends Controller
             ->withTranslations()
             ->first();
 
+
         if ($contact) return redirect()->route('admin.contacts.edit', ['contact' => $contact]);
 
         $contacts = Contact::query()
             ->withTranslations()
             ->get();
 
-        return view('admin.contacts.index', ['contacts' => $contacts]);
+        return view('admin.contacts.index', [
+            'contacts' => $contacts,
+            // 'contents' => $contents
+        ]);
     }
 
     public function create()
@@ -54,14 +60,17 @@ class ContactController extends Controller
 
     public function edit(Contact $contact)
     {
-        return view('admin.contacts.edit', ['contact' => $contact->load('addressTranslate', 'workTimeTranslate')]);
+        $contents = ContactsContent::query()->with('titleTranslate', 'descriptionTranslate')->first();
+        return view('admin.contacts.edit', ['contact' => $contact->load('addressTranslate', 'workTimeTranslate'), 'contents' => $contents]);
     }
 
     public function update(UpdateContactRequest $request, Contact $contact)
     {
+        // return $request->all();
         try {
-            return DB::transaction(function () use ($request, $contact) {
-                $this->service->update($contact, $request->validated());
+            $content = ContactsContent::query()->with('titleTranslate', 'descriptionTranslate')->first();
+            return DB::transaction(function () use ($request, $contact, $content) {
+                $this->service->update($contact, $content, $request->validated());
                 return backPage(trans('messages.success_updated'));
             });
         } catch (\Exception $exception) {

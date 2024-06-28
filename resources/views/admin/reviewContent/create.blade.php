@@ -19,16 +19,16 @@
                 @include('admin._components.alert')
 
                 <div class="col-12">
-                    <a href="{{ route('admin.brands.index') }}" title="@lang('messages.back')"
+                    <a href="{{ route('admin.reviewContent.index') }}" title="@lang('messages.back')"
                        class="btn btn-warning btn-sm mb-3">
                         <i class="fa fa-arrow-left" aria-hidden="true"></i>
                         @lang('messages.back')
                     </a>
                     <div class="info-box flex-column shadow-none">
-                        <form method="POST" action="{{ route('admin.brands.store') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('admin.reviewContent.store') }}" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
-                            @include('admin.brands._form')
+                            @include('admin.reviewContent._form')
                         </form>
                     </div>
                 </div>
@@ -38,6 +38,6 @@
 @endsection
 
 @push('scripts')
-    @includeIf('admin._components.loadFileScript')
     @includeIf('admin._components.formTabs')
+    @includeIf('admin._components.ckeditor4Scripts')
 @endpush

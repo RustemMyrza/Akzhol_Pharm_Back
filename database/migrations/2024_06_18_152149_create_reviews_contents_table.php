@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('reviews_contents', function (Blueprint $table) {
             $table->id();
-            $table->string('logo')->nullable();
-            $table->foreignId('title')->nullable()->constrained('translates')->nullOnDelete();
-            $table->boolean('is_active')->default(1);
-            $table->unsignedInteger('position')->default(1);
+            $table->foreignId('description')->nullable()->constrained('translates')->nullOnDelete();
+            $table->foreignId('content')->nullable()->constrained('translates')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('reviews_contents');
     }
 };

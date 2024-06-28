@@ -10,6 +10,10 @@ class UpdateContactRequest extends FormRequest
     public function rules()
     {
         return [
+            'title' => 'required|max:255',
+            'title.*' => 'required',
+            'description' => 'nullable|max:5000',
+            'description.*' => 'nullable',
             'address' => 'required|array',
             'address.*' => 'required',
             'work_time' => 'required|array',

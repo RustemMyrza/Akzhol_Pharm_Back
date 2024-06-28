@@ -13,6 +13,7 @@ class UpdateDeliveryContentRequest extends FormRequest
             'description.*' => 'required',
             'content' => 'required|array',
             'content.*' => 'required',
+            'image' => 'nullable'
         ];
     }
 }

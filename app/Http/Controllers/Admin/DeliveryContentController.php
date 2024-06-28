@@ -21,7 +21,7 @@ class DeliveryContentController extends Controller
     public function index()
     {
         try {
-            return view('admin.deliveryContents.index', $this->service->getDeliveryData());
+            return view('admin.deliveryContents.index', $this->service->getDeliveryContents());
         } catch (\Exception $exception) {
             return backPageError($exception->getMessage());
         }

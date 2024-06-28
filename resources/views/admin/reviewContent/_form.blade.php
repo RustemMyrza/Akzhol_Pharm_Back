@@ -16,18 +16,19 @@
             @forelse(\App\Models\Translate::LANGUAGES_ASSOC as $key => $language)
                 <div class="tab-pane fade @if($loop->first) active in show @endif" id="{{ $key }}-tab-content"
                      role="tabpanel" aria-labelledby="{{ $key }}-tab">
-                    <div class="form-group">
+                    <div class="form-group required ">
                         <label for="description-{{ $key }}" class="control-label">
                             @lang('validation.attributes.description') ({{ $key }})
                         </label>
-                        <textarea type="text" name="description[{{ $key }}]" id="description-{{ $key }}" cols="30"
-                                  class="form-control ckeditor4 @error('description.' . $key) is-invalid @enderror"
-                                  rows="15"
-                        >{{ isset($deliveryContent) ? $deliveryContent->descriptionTranslate?->{$key} : (old('description.'.$key) ?? '') }}</textarea>
+                        <input class="form-control @error('description.' . $key) is-invalid @enderror"
+                               name="description[{{ $key }}]" type="text"
+                               id="description-{{ $key }}"
+                               value="{{ isset($reviewContent) ? $reviewContent->descriptionTranslate?->{$key} : (old('description.'.$key) ?? '') }}">
                         @error('description.' . $key)
                         <span class="error invalid-feedback">{{ $message }} </span>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="content-{{ $key }}" class="control-label">
                             @lang('validation.attributes.content') ({{ $key }})
@@ -35,7 +36,7 @@
                         <textarea type="text" name="content[{{ $key }}]" id="content-{{ $key }}" cols="30"
                                   class="form-control ckeditor4 @error('content.' . $key) is-invalid @enderror"
                                   rows="15"
-                        >{{ isset($deliveryContent) ? $deliveryContent->contentTranslate?->{$key} : (old('content.'.$key) ?? '') }}</textarea>
+                        >{{ isset($reviewContent) ? $reviewContent->contentTranslate?->{$key} : (old('content.'.$key) ?? '') }}</textarea>
                         @error('content.' . $key)
                         <span class="error invalid-feedback">{{ $message }} </span>
                         @enderror
@@ -44,29 +45,6 @@
             @empty
                 @lang('messages.translates_not_found')
             @endforelse
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="form-group required">
-            <label for="image" class="control-label">@lang('validation.attributes.image_size', ['size' => 3]) </label>
-            <input class="form-control @error('image') is-invalid @enderror"
-                   name="image" type="file" id="image" accept="image/*" onchange="loadFile(event)">
-            @error('image')
-            <span class="error invalid-feedback"> {{ $message }} </span>
-            @enderror
-            @if(isset($deliveryContent) && $deliveryContent->image != null)
-                <img id="image-preview" class="rounded about-us-image-edit" src="{{ $deliveryContent->image }}"
-                     alt="">
-                <button type="button" class="btn btn-sm btn-danger"
-                        id="deleteImage"
-                        data-id="{{ $deliveryContent->id }}">
-                    @lang('messages.delete')
-                </button>
-            @else
-                <img id="image-preview" class="rounded about-us-image-edit"
-                     style="display: none;" alt="">
-            @endif
         </div>
     </div>
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * App\Models\DeliveryContent
@@ -30,6 +31,8 @@ class DeliveryContent extends Model
 {
     protected $guarded = false;
 
+    protected $appends = ['image_url'];
+
     protected $hidden = [
         'created_at',
         'updated_at',
@@ -47,6 +50,11 @@ class DeliveryContent extends Model
     public function contentTranslate(): HasOne
     {
         return $this->hasOne(Translate::class, 'id', 'content');
+    }
+
+    public function getImageUrlAttribute(): string|null
+    {
+        return $this->image ? Storage::disk('custom')->url(self::IMAGE_PATH . '/' . $this->image) : null;
     }
 
     public function scopeWithTranslations($query)

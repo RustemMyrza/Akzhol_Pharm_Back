@@ -6,7 +6,7 @@ use App\Exceptions\ApiErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Auth\ForgotPasswordRequest;
 use App\Jobs\ForgotPasswordJob;
-use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -22,9 +22,10 @@ class ForgotPasswordController extends Controller
         try {
             $data = $request->validated();
 
-            $user = User::query()
+            $user = Client::query()
                 ->where('email', '=', $data['email'])
                 ->first();
+            
 
             if (!$user) {
                 throw new ApiErrorException(trans('messages.user_not_found'), Response::HTTP_NOT_FOUND);

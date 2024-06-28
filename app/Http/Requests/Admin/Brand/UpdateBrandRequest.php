@@ -13,6 +13,7 @@ class UpdateBrandRequest extends FormRequest
             'title.*' => 'required',
             'is_active' => 'nullable|in:0,1',
             'position' => 'required|integer',
+            'logo' => 'nullable|image|max:3072'
         ];
     }
 }

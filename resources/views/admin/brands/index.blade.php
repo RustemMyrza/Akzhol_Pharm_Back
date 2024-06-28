@@ -33,6 +33,7 @@
                                 <thead class="thead">
                                 <tr>
                                     <th>#ID</th>
+                                    <th>Логотип</th>
                                     <th>@lang('validation.attributes.title')</th>
                                     <th>@lang('validation.attributes.status')</th>
                                     <th>@lang('validation.attributes.position')</th>
@@ -44,6 +45,11 @@
                                 @forelse($brands as $brand)
                                     <tr>
                                         <td data-original-id="{{ $brand->id }}" data-id="{{ $brand->id }}">{{ $brand->id }}</td>
+                                        <td>
+                                            @if(isset($brand->logo))
+                                                <img src="{{ url($brand->logo) }}" alt="{{ url($brand->logo) }}" width="200px">
+                                            @endif
+                                        </td>
                                         <td>{{ $brand->titleTranslate?->ru }}</td>
                                         <td>
                                             <label class="checkbox-label">

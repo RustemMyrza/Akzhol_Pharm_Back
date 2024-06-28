@@ -20,6 +20,7 @@ class BrandService extends Service
     {
         return Brand::query()
             ->create([
+                'logo' => isset($data['logo']) ? $this->fileService->saveFile($data['logo'], Brand::IMAGE_PATH) : null,
                 'title' => $this->translateService->createTranslate($data['title']),
                 'is_active' => $data['is_active'] ?? 0,
                 'position' => $data['position'] ?? Brand::lastPosition(),
@@ -28,6 +29,10 @@ class BrandService extends Service
 
     public function update(Brand $country, array $data)
     {
+        if (isset($data['logo']))
+        {
+            $country->logo = $this->fileService->saveFile($data['logo'], Brand::IMAGE_PATH);
+        }
         $country->title = $this->translateService->updateTranslate($country->title, $data['title']);
         $country->is_active = $data['is_active'] ?? 0;
         $country->position = $data['position'] ?? Brand::lastPosition();
@@ -36,6 +41,7 @@ class BrandService extends Service
 
     public function delete(Brand $country)
     {
+        isset($country->logo) ? unlink($country->logo) : null;
         $country->titleTranslate?->delete();
         return $country->delete();
     }

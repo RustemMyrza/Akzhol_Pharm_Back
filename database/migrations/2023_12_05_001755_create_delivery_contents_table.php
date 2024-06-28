@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::create('delivery_contents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('description')->nullable()->constrained('translates')->nullOnDelete();
+            $table->foreignId('content')->nullable()->constrained('translates')->nullOnDelete();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

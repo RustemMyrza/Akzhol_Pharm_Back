@@ -81,6 +81,7 @@ Route::prefix('admin')->name('admin.')->scopeBindings()->group(function () {
     });
 
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
 
     Route::post('products/export', [\App\Http\Controllers\Admin\ProductImportController::class, 'export'])->name('products.export');
     Route::post('products/import', [\App\Http\Controllers\Admin\ProductImportController::class, 'import'])->name('products.import');
@@ -143,11 +144,8 @@ Route::prefix('admin')->name('admin.')->scopeBindings()->group(function () {
     Route::resource('catalogContents', \App\Http\Controllers\Admin\DealerContentController::class)->except('show', 'destroy');
     Route::resource('aboutUsContents', \App\Http\Controllers\Admin\AboutUsContentController::class)->except('show', 'destroy');
     Route::post('aboutUsContents/{aboutUsContent}/deleteImage', [\App\Http\Controllers\Admin\AboutUsContentController::class, 'deleteImage']);
-    Route::resource('instructions', \App\Http\Controllers\Admin\InstructionController::class)->except('show');
-    Route::prefix('instructions/{instruction}')->name('instructions.')->group(function () {
-        Route::get('deleteFile', [\App\Http\Controllers\Admin\InstructionController::class, 'deleteFile'])->name('deleteFile');
-        Route::post('updateIsActive', [\App\Http\Controllers\Admin\InstructionController::class, 'updateIsActive']);
-    });
+    Route::resource('reviewContent', App\Http\Controllers\Admin\ReviewContentController::class)->except('show', 'destroy');
+    
 
     Route::resource('deliveryContents', \App\Http\Controllers\Admin\DeliveryContentController::class)->except('show', 'destroy');
     Route::resource('deliveryFeatures', \App\Http\Controllers\Admin\DeliveryFeatureController::class)->except('index', 'show');

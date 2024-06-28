@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Доставка')
+@section('title', 'Отзывы')
 
 @section('content')
     <div class="content-header">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h5 class="m-0">Доставка</h5>
+                    <h5 class="m-0">Отзывы</h5>
                 </div>
             </div>
         </div>
@@ -20,17 +20,17 @@
 
                 <div class="col-12">
                     <div class="card-tools flex-wrap justify-content-between mb-2 mb-md-3">
-                        <a href="{{ route('admin.deliveryContents.create') }}"
+                        <a href="{{ route('admin.reviewContent.create') }}"
                            class="btn btn-success btn-sm" title="@lang('messages.add')">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             @lang('messages.add')
                         </a>
                     </div>
 
-                   @if(!count($deliveryContent))
+                   @if(!count($reviewContent))
                         <div class="alert alert-danger alert-dismissible border-0">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <p class="m-0"><i class="icon fas fa-ban"></i> Доставка контент не найдено </p>
+                            <p class="m-0"><i class="icon fas fa-ban"></i> Отзывы контент не найдено </p>
                         </div>
                     @else
                     <div class="info-box info-card flex-column shadow-none">
@@ -41,25 +41,19 @@
                                 <th>#ID</th>
                                 <th>Заголовок</th>
                                 <th>Описание</th>
-                                <th>Изображение</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($deliveryContent as $content)
+                            @foreach($reviewContent as $content)
                                 <tr>
                                     <td>{{ $content->id }}</td>
-                                    <td style="white-space: normal">
-                                        {{ Str::limit($content->descriptionTranslate?->ru, 200) }}
-                                    </td>
-                                    <td style="white-space: normal">{{ Str::limit($content->contentTranslate?->ru, 200) }}</td>
                                     <td>
-                                        @if(isset($content->image))
-                                            <img src="{{ url($content->image) }}" alt="{{ url($content->image) }}" width="200px">
-                                        @endif
+                                        {{ $content->descriptionTranslate?->ru }}
                                     </td>
+                                    <td style="white-space: normal">{{ $content->contentTranslate?->ru }}</td>
                                     <td>
-                                        <a href="{{ route('admin.deliveryContents.edit', ['deliveryContent' => $content->id]) }}"
+                                        <a href="{{ route('admin.reviewContent.edit', ['reviewContent' => $content->id]) }}"
                                             title="@lang('messages.edit')"
                                             class="btn btn-primary btn-icon">
                                             <i class="fa fa-edit"></i>

@@ -14,6 +14,8 @@ class StoreDeliveryContentRequest extends FormRequest
 
             'content' => 'required|array',
             'content.*' => 'required',
+
+            'image' => 'nullable'
         ];
     }
 }

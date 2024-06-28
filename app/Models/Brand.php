@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * App\Models\Brand
@@ -30,7 +31,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Brand extends Model
 {
+    protected $appends = ['image_url'];
+    
     protected $fillable = [
+        'logo',
         'title',
         'is_active',
         'position',
@@ -40,6 +44,8 @@ class Brand extends Model
         'created_at',
         'updated_at',
     ];
+
+    const IMAGE_PATH = 'images/brands-logos';
 
     const CACHE_TIME = 60 * 60 * 24;
 
@@ -51,6 +57,11 @@ class Brand extends Model
     public static function lastPosition()
     {
         return static::query()->max('position') + 1;
+    }
+
+    public function getImageUrlAttribute(): string|null
+    {
+        return $this->logo ? Storage::disk('custom')->url(self::IMAGE_PATH . '/' . $this->logo) : null;
     }
 
     public function scopeIsActive($query)

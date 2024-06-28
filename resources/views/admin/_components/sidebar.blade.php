@@ -107,6 +107,15 @@
                     </li>
                 @endif
 
+                @if(\Route::has('admin.brands.index'))
+                    <li class="nav-item">
+                        <a href="{{ route('admin.brands.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-plus-square"></i>
+                            <p>Бренды</p>
+                        </a>
+                    </li>
+                @endif
+
                 @if(\Route::has('admin.notificationMessages.index'))
                     <li class="nav-item">
                         <a href="{{ route('admin.notificationMessages.index') }}" class="nav-link">
@@ -178,12 +187,21 @@
                             </li>
                         @endif
 
-                        @if(\Route::has('admin.instructions.index'))
+                        @if(\Route::has('admin.reviewContent.index'))
                             <li class="nav-item">
-                                <a href="{{ route('admin.instructions.index') }}"
+                                <a href="{{ route('admin.reviewContent.index') }}"
                                    class="nav-link">
                                     <i class="nav-icon fas fa-paste"></i>
                                     <p>Отзывы</p>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(\Route::has('admin.contacts.index'))
+                            <li class="nav-item">
+                                <a href="{{ route('admin.contacts.index') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-phone"></i>
+                                    <p>@lang('messages.contacts')</p>
                                 </a>
                             </li>
                         @endif
@@ -225,15 +243,6 @@
                     </a>
                 </li>
                 @endrole
-
-                @if(\Route::has('admin.contacts.index'))
-                    <li class="nav-item">
-                        <a href="{{ route('admin.contacts.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-phone"></i>
-                            <p>@lang('messages.contacts')</p>
-                        </a>
-                    </li>
-                @endif
 
                 @if(\Route::has('admin.socials.index'))
                     <li class="nav-item">

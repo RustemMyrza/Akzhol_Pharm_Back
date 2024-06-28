@@ -2,23 +2,23 @@
 
 namespace App\Services\Api\V1;
 
-use App\Models\User;
+use App\Models\Client;
+use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
     public function createUser(array $data)
     {
-        return User::query()
+        return Client::query()
             ->create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
+                'name' => $data['name'],
+                'surname' => $data['surname'],
                 'email' => $data['email'],
-                'password' => $data['password'],
-            ])
-            ->assignRole('user');
+                'password' => Hash::make($data['password']),
+            ]);
     }
 
-    public function createToken(User $user)
+    public function createToken(Client $user)
     {
         return [
             'token' => $user->createToken(config('app.name'), ['*'], now()->addDays(7))->toArray(),

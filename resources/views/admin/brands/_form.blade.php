@@ -61,6 +61,24 @@
     </div>
 
     <div class="col-md-12">
+        <div class="form-group required">
+            <label for="logo" class="control-label">Логотип</label>
+            <input class="form-control @error('logo') is-invalid @enderror"
+                   name="logo" type="file" id="logo" accept="logo/*" onchange="loadFile(event)">
+            @error('logo')
+            <span class="error invalid-feedback"> {{ $message }} </span>
+            @enderror
+            @if(isset($brand) && $brand->image_url != null)
+                <img id="image-preview" class="rounded about-us-image-edit" src="{{ $brand->logo }}"
+                     alt="">
+            @else
+                <img id="image-preview" class="rounded about-us-image-edit"
+                     style="display: none;" alt="">
+            @endif
+        </div>
+    </div>
+
+    <div class="col-md-12">
         <div class="form-group mb-0">
             <button type="submit" class="btn btn-primary">
                 @lang('messages.save')
