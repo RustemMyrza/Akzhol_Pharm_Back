@@ -4,15 +4,14 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Exceptions\ApiErrorException;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\DeliveryContentResource;
+use App\Http\Resources\V1\PaymentContentResource;
 use App\Http\Resources\V1\SeoPageResource;
-use App\Models\DeliveryContent;
+use App\Models\PaymentContent;
 use stdClass;
-use App\Models\DeliveryFeature;
 use App\Models\SeoPage;
 use Illuminate\Http\JsonResponse;
 
-class DeliveryContentController extends Controller
+class PaymentContentController extends Controller
 {
     /**
      * @throws ApiErrorException
@@ -20,32 +19,38 @@ class DeliveryContentController extends Controller
     public function __invoke(): JsonResponse
     {
         try {
-            $deliveryContent = DeliveryContent::query()->withTranslations()->get();
-            foreach ($deliveryContent as $key => $item)
+            $paymentContent = PaymentContent::query()->withTranslations()->get();
+
+            foreach ($paymentContent as $key => $item)
             {
                 switch($key)
                 {
                     case 0:
-                        $delivery = new DeliveryContentResource($item);
+                        $description = new PaymentContentResource($item);
                         break;
                     case 1:
-                        $courier = new DeliveryContentResource($item);
+                        $steps[] = new PaymentContentResource($item);
                         break;
                     case 2:
-                        $selfDelivery = new DeliveryContentResource($item);
+                        $steps[] = new PaymentContentResource($item);
+                        break;
+                    case 3:
+                        $steps[] = new PaymentContentResource($item);
+                        break;
+                    case 4:
+                        $steps[] = new PaymentContentResource($item);
                         break;
                 }
             }
 
-            $deliveryContentApi = new stdClass;
-            $deliveryContentApi->delivery = $delivery;
-            $deliveryContentApi->courier = $courier;
-            $deliveryContentApi->selfDelivery = $selfDelivery;
+            $paymentContentApi = new stdClass;
+            $paymentContentApi->description = $description;
+            $paymentContentApi->steps = $steps;
 
             $seoPage = SeoPage::query()->withMetaTranslations()->wherePage('delivery')->first();
 
             return new JsonResponse([
-                'deliveryContent' => $deliveryContentApi ? $deliveryContentApi : null,
+                'paymentContent' => $paymentContentApi ? $paymentContentApi : null,
                 'seoPage' => $seoPage ? new SeoPageResource($seoPage) : null
             ]);
         }catch (\Exception $exception) {

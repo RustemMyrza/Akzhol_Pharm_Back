@@ -6,16 +6,14 @@ use App\Exceptions\ApiErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BannerResource;
 use App\Http\Resources\V1\HomeContentResource;
-use App\Http\Resources\V1\ImportantCategoryResource;
-use App\Http\Resources\V1\NewCategoryResource;
 use App\Http\Resources\V1\SeoPageResource;
-use App\Http\Resources\V1\SliderResource;
+use App\Http\Resources\V1\BrandResource;
 use App\Models\Banner;
-use App\Models\Category;
+use App\Models\Brand;
 use App\Models\HomeContent;
 use App\Models\SeoPage;
-use App\Models\Slider;
 use Illuminate\Http\JsonResponse;
+use stdClass;
 
 class HomeController extends Controller
 {
@@ -25,36 +23,39 @@ class HomeController extends Controller
     public function __invoke()
     {
         try {
-            $banners = cache()->remember('apiBanners', Banner::CACHE_TIME, function () {
-                return Banner::query()->withTranslations()->isActive()->get();
-            });
+            $banners = Banner::query()->withTranslations()->isActive()->get();
 
-            $newCategories = cache()->remember('apiNewCategories', Category::CACHE_TIME, function () {
-                return Category::query()->withTranslations()->with('products.titleTranslate')->isActive()->isNew()->get();
-            });
+            $brands = Brand::query()->with('titleTranslate')->get();
 
-            $sliders = cache()->remember('apiSliders', Slider::CACHE_TIME, function () {
-                return Slider::query()->withTranslations()->isActive()->get();
-            });
+            $seoPage = SeoPage::query()->withMetaTranslations()->wherePage('home')->first();
 
-            $importantCategory = cache()->remember('apiImportantCategory', Category::CACHE_TIME, function () {
-                return Category::query()->withTranslations()->with('products.titleTranslate')->isActive()->isImportant()->first();
-            });
+            $homeContent = HomeContent::query()->with('titleTranslate', 'descriptionTranslate')->get();
 
-            $seoPage = cache()->remember('apiSeoHome', SeoPage::CACHE_TIME, function () {
-                return SeoPage::query()->withMetaTranslations()->wherePage('home')->first();
-            });
+            foreach ($homeContent as $key => $item)
+            {
+                switch($key)
+                {
+                    case 0:
+                        $stocks = new HomeContentResource($item);
+                        break;
+                    case 1:
+                        $novelties = new HomeContentResource($item);
+                        break;
+                    case 2:
+                        $brandsTitle = new HomeContentResource($item);
+                        break;
+                }
+            }
 
-            $homeContent = cache()->remember('apiHomeContent', HomeContent::CACHE_TIME, function () {
-                return HomeContent::query()->withTranslations()->first();
-            });
+            $homeContentApi = new stdClass;
+            $homeContentApi->stocks = $stocks;
+            $homeContentApi->novelties = $novelties;
+            $homeContentApi->brands = $brandsTitle;
 
             return new JsonResponse([
                 'banners' => BannerResource::collection($banners),
-                'newCategories' => NewCategoryResource::collection($newCategories),
-                'sliders' => SliderResource::collection($sliders),
-                'homeContent' => $homeContent ? new HomeContentResource($homeContent) : null,
-                'importantCategory' => $importantCategory ? new ImportantCategoryResource($importantCategory) : null,
+                'homeContent' => $homeContentApi ? $homeContentApi : null,
+                'brands' => BrandResource::collection($brands),
                 'seoPage' => $seoPage ? new SeoPageResource($seoPage) : null
             ]);
         } catch (\Exception $exception) {

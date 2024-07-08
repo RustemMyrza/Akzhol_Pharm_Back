@@ -33,7 +33,6 @@ class PaymentController extends Controller
             $request->merge(['status' => PaymentStatusEnum::PAYED]);
             return DB::transaction(function () use ($request) {
                 $payment = $this->service->update($request);
-
                 if (!$payment) {
                     throw new ApiErrorException('Payment not found!');
                 }

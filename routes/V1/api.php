@@ -18,10 +18,10 @@ Route::prefix('V1')
                 Route::get('instructions', [\App\Http\Controllers\Api\V1\InstructionController::class, 'index']);
                 Route::get('instructions/search', [\App\Http\Controllers\Api\V1\InstructionController::class, 'search']);
 
-                Route::get('payment', \App\Http\Controllers\Api\V1\PaymentMethodController::class);
+                Route::get('payment', \App\Http\Controllers\Api\V1\PaymentContentController::class);
                 Route::get('delivery', \App\Http\Controllers\Api\V1\DeliveryContentController::class);
                 Route::get('about', \App\Http\Controllers\Api\V1\AboutUsContentController::class);
-                Route::get('dealer', \App\Http\Controllers\Api\V1\DealerContentController::class);
+                Route::get('review', \App\Http\Controllers\Api\V1\ReviewContentController::class);
                 Route::get('contacts', \App\Http\Controllers\Api\V1\ContactController::class);
             });
 

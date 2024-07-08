@@ -65,6 +65,7 @@ class ProductController extends Controller
      */
     public function search(SearchProductRequest $request)
     {
+        return 'ok';
         try {
             $products = Product::query()
                 ->when($request->filled('text'), function ($query) use ($request) {
