@@ -21,10 +21,13 @@ class ProductsSheet implements FromView, WithTitle, ShouldAutoSize
                 return [
                     'titleRu' => $product->titleTranslate?->ru,
                     'titleEn' => $product->titleTranslate?->en,
+                    'titleKz' => $product->titleTranslate?->kz,
                     'descriptionRu' => $product->descriptionTranslate?->ru,
                     'descriptionEn' => $product->descriptionTranslate?->en,
+                    'descriptionKz' => $product->descriptionTranslate?->kz,
                     'instructionRu' => $product->instructionTranslate?->ru,
                     'instructionEn' => $product->instructionTranslate?->en,
+                    'instructionKz' => $product->instructionTranslate?->kz,
                     'vendorCode' => $product->vendor_code,
                     'price' => $product->price,
                     'discount' => $product->discount,

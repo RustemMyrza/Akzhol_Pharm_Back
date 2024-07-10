@@ -3,10 +3,13 @@
     <tr>
         <th>Загаловок ru</th>
         <th>Загаловок en</th>
+        <th>Загаловок kz</th>
         <th>Описание ru</th>
         <th>Описание en</th>
+        <th>Описание kz</th>
         <th>Инструкция ru</th>
         <th>Инструкция en</th>
+        <th>Инструкция kz</th>
         <th>Артикул</th>
         <th>Цена в розницу</th>
         <th>Скидка</th>
@@ -24,10 +27,13 @@
         <tr>
             <td>{{ $product['titleRu'] }} </td>
             <td>{{ $product['titleEn'] }} </td>
+            <td>{{ $product['titleKz'] }} </td>
             <td style="width: 190px;">{{ $product['descriptionRu'] }} </td>
             <td style="width: 190px;">{{ $product['descriptionEn'] }} </td>
+            <td style="width: 190px;">{{ $product['descriptionKz'] }} </td>
             <td style="width: 190px;">{{ $product['instructionRu'] }} </td>
             <td style="width: 190px;">{{ $product['instructionEn'] }} </td>
+            <td style="width: 190px;">{{ $product['instructionKz'] }} </td>
             <td>{{ $product['vendorCode'] }} </td>
             <td>{{ $product['price'] }} </td>
             <td>{{ $product['discount'] }} </td>
