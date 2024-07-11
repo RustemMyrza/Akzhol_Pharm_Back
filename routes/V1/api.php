@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('V1')
     ->group(function () {
+        Route::get('get-test-token', [\App\Http\Controllers\Api\V1\PaymentTestController::class, 'getToken']);
         Route::get('get-header', \App\Http\Controllers\Api\V1\HeaderController::class);
         Route::get('get-footer', \App\Http\Controllers\Api\V1\FooterController::class);
 
