@@ -34,6 +34,7 @@ class StoreProductRequest extends FormRequest
 
             'position' => 'required|integer',
             'image' => 'required|image|max:4096',
+            'youtube_link' => 'nullable',
 //            'feature_image' => 'nullable|image|max:10240',
 
 //            'specification_table' => 'nullable|array',

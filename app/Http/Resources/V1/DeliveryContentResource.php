@@ -11,6 +11,7 @@ class DeliveryContentResource extends JsonResource
         return [
             'description' => $this->descriptionTranslate?->{$request->language},
             'content' => $this->contentTranslate?->{$request->language},
+            'image' => $this->image ? url($this->image) : null
         ];
     }
 }

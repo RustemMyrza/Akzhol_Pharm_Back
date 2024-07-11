@@ -16,7 +16,7 @@ class BrandResource extends JsonResource
     {
         return [
             'title' => $this->titleTranslate?->{$request->language},
-            'image' => $this->image_url
+            'image' => $this->logo ? url($this->logo) : null
         ];
     }
 }

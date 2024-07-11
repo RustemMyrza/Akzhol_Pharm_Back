@@ -36,6 +36,7 @@ class UpdateProductRequest extends FormRequest
 
             'position' => 'required|integer',
             'image' => 'nullable|image|max:4096',
+            'youtube_link' => 'nullable',
 
 //            'specification_table' => 'nullable|array',
 //            'size_image' => 'nullable|image|max:10240',

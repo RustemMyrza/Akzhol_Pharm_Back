@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->scopeBindings()->group(function () {
+    Route::get('get-test-token', [\App\Http\Controllers\PaymentTestController::class, 'getToken']);
+    Route::get('show-test-token/{token}', [\App\Http\Controllers\PaymentTestController::class, 'showToken'])->name('show-test-token');
+    Route::get('success', [\App\Http\Controllers\PaymentTestController::class, 'success']);
+    Route::get('post-link', [\App\Http\Controllers\PaymentTestController::class, 'postLink']);
+    Route::get('failure-post-link', [\App\Http\Controllers\PaymentTestController::class, 'failurePostLink']);
+    Route::get('failure', [\App\Http\Controllers\PaymentTestController::class, 'failure']);
     Route::get('index', [\App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
     // Route::resource('notificationMessages', \App\Http\Controllers\Admin\NotificationMessageController::class);

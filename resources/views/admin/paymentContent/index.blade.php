@@ -41,7 +41,6 @@
                                 <th>#ID</th>
                                 <th>Заголовок</th>
                                 <th>Описание</th>
-                                <th>Изображение</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -53,11 +52,6 @@
                                         {{ Str::limit($content->descriptionTranslate?->ru, 200) }}
                                     </td>
                                     <td style="white-space: normal">{{ Str::limit($content->contentTranslate?->ru, 200) }}</td>
-                                    <td>
-                                        @if(isset($content->image))
-                                            <img src="{{ url($content->image) }}" alt="{{ url($content->image) }}" width="200px">
-                                        @endif
-                                    </td>
                                     <td>
                                         <a href="{{ route('admin.paymentContent.edit', ['paymentContent' => $content->id]) }}"
                                             title="@lang('messages.edit')"

@@ -237,6 +237,19 @@
 
     <hr>
 
+    <div class="form-group required ">
+        <label for="youtube_link" class="control-label">
+            Ссылка на видео YouTube
+        </label>
+        <input class="form-control @error('youtube_link') is-invalid @enderror"
+                name="youtube_link" type="text"
+                id="youtube_link"
+                value="{{ isset($product) ? $product->youtube_link : '' }}">
+        @error('youtube_link')
+        <span class="error invalid-feedback">{{ $message }} </span>
+        @enderror
+    </div>
+
     <div class="col-6 col-md-6 col-lg-4">
         <div class="form-group required">
             <label for="vendor_code" class="control-label">Код товара </label>

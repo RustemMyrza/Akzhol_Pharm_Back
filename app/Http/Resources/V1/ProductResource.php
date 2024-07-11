@@ -22,6 +22,7 @@ class ProductResource extends JsonResource
             'image' => $this->image_url,
             'document' => $this->document_url,
             'images' => $images,
+            'youtube_link' => $this->youtube_link ?? null,
             'price' => $this->price_format,
             'old_price' => $this->old_price_format,
 //            'bulk_price' => $this->bulk_price,

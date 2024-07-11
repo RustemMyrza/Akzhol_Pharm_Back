@@ -23,6 +23,7 @@ class CategoryProductResource extends JsonResource
             'vendor_code' => $this->vendor_code,
             'slug' => $this->slug,
             'image' => $this->image_url,
+            'youtube_link' => $this->youtube_link ?? null,
             'price' => $this->price_format,
             'old_price' => $this->old_price_format,
             'stock_quantity' => $this->stock_quantity,

@@ -105,6 +105,7 @@ class ProductService extends Service
                 'status' => $data['status'],
                 'position' => $data['position'] ?? Product::lastPosition(),
                 'image' => isset($data['image']) ? $this->fileService->saveFile($data['image'], Product::IMAGE_PATH) : null,
+                'youtube_link' => isset($data['youtube_link']) ?? null,
 //                'feature_image' => isset($data['feature_image']) ? $this->fileService->saveFile($data['feature_image'], Product::IMAGE_PATH) : null,
                 'document' => isset($data['document']) ? $this->fileService->saveFile($data['document'], Product::DOCUMENT_PATH) : null,
             ]);
@@ -155,6 +156,7 @@ class ProductService extends Service
 
         $product->price = $data['price'];
         $product->discount = $data['discount'] ?? 0;
+        $product->youtube_link = $data['youtube_link'] ?? null;
 //      $product->bulk_price = $data['bulk_price'] ?? 0;
 //      $product->stock_quantity = $data['stock_quantity'] ?? 0;
 

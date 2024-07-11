@@ -11,7 +11,7 @@ class AboutUsContentResource extends JsonResource
         return [
             'description' => $this->descriptionTranslate?->{$request->language},
             'content' => $this->contentTranslate?->{$request->language},
-            'image' => $this->image_url,
+            'image' => $this->image ? url($this->image) : null,
         ];
     }
 }
