@@ -31,9 +31,9 @@ class UpdateProductRequest extends FormRequest
             'sub_category_id' => 'nullable|exists:sub_categories,id',
             'product_filter_items' => 'nullable',
             'product_feature_items' => 'nullable',
-
+            'is_new' => 'nullable|in:0,1',
             'is_active' => 'nullable|in:0,1',
-
+            'is_promotional' => 'nullable|in:0,1',
             'position' => 'required|integer',
             'image' => 'nullable|image|max:4096',
             'youtube_link' => 'nullable',

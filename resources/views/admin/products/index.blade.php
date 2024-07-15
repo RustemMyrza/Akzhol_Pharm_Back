@@ -203,6 +203,12 @@
                                     Экспорт Excel
                                 </button>
                             </form>
+
+                            <a href="{{ route('admin.products.create') }}"
+                               class="btn btn-success btn-sm" title="@lang('messages.add')">
+                                <i class="fa fa-minus-square" aria-hidden="true"></i>
+                                Акций
+                            </a>
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="button" class="btn btn-outline-primary" data-toggle="modal"

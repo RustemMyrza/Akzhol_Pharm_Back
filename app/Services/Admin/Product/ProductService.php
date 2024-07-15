@@ -74,13 +74,9 @@ class ProductService extends Service
     public function getDefaultData(): array
     {
         return [
-            'categories' => cache()->remember('productCategories', Category::CACHE_TIME, function () {
-                return Category::query()->withTranslations()->isActive()->get();
-            }),
-            'subCategories' => [],
-            'features' => cache()->remember('productFeatures', Feature::CACHE_TIME, function () {
-                return Feature::query()->withTranslations()->with(['featureItems.titleTranslate'])->isActive()->get();
-            }),
+            'categories' => Category::query()->withTranslations()->isActive()->get(),
+            'subCategories' => SubCategory::query()->withTranslations()->isActive()->get(),
+            'features' => Feature::query()->withTranslations()->with(['featureItems.titleTranslate'])->isActive()->get(),
             'statuses' => Product::statuses(),
             'lastPosition' => Product::lastPosition(),
             'filters' => $this->filterService->getFiltersByCategoryId(Category::firstCategoryId())
@@ -97,7 +93,9 @@ class ProductService extends Service
                 'vendor_code' => $data['vendor_code'],
                 'category_id' => $data['category_id'] ?? null,
                 'sub_category_id' => $data['sub_category_id'] ?? null,
+                'is_new' => $data['is_new'] ?? 0,
                 'is_active' => $data['is_active'] ?? 0,
+                'is_promotional' => $data['is_promotional'] ?? 0,
                 'price' => $data['price'],
                 'bulk_price' => $data['bulk_price'] ?? 0,
                 'stock_quantity' => $data['stock_quantity'] ?? 0,
@@ -151,7 +149,9 @@ class ProductService extends Service
         $product->category_id = $data['category_id'] ?? null;
         $product->sub_category_id = $data['sub_category_id'] ?? null;
         $product->status = $data['status'] ?? 0;
+        $product->is_new = $data['is_new'] ?? 0;
         $product->is_active = $data['is_active'] ?? 0;
+        $product->is_promotional = $data['is_promotional'] ?? 0;
         $product->position = $data['position'] ?? Product::lastPosition();
 
         $product->price = $data['price'];

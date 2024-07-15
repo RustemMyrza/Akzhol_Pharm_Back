@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Product;
 
 /**
  * App\Models\SubCategory
@@ -78,5 +80,10 @@ class SubCategory extends Model
     public function scopeWithTranslations($query)
     {
         return $query->with(['titleTranslate'])->orderBy('position')->orderBy('id');
+    }
+
+    public function getProducts()
+    {
+        return $this->hasMany(Product::class, 'sub_category_id', 'id');
     }
 }

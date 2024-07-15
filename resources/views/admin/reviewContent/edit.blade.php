@@ -7,6 +7,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    <a href="{{ route('admin.reviewContent.index') }}" title="@lang('messages.back')"
+                       class="btn btn-warning btn-sm mb-1 mr-3">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        @lang('messages.back')
+                    </a>
                     <h5 class="m-0">@lang('messages.edit')</h5>
                 </div>
             </div>

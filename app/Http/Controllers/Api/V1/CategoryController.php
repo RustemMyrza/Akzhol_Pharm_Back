@@ -6,7 +6,6 @@ use App\Exceptions\ApiErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\CategoryRequest;
 use App\Http\Resources\V1\CategoryResource;
-use App\Http\Resources\V1\CategoryProductResource;
 use App\Http\Resources\V1\SeoPageResource;
 use App\Library\ResourcePaginator;
 use App\Models\Category;
@@ -23,14 +22,11 @@ class CategoryController extends Controller
     public function __invoke(CategoryRequest $request): JsonResponse
     {
         try {
-            $newCategories = cache()->remember('apiNewCatalogCategories', Category::CACHE_TIME, function () {
-                return Category::query()
+            $newCategories = Category::query()
                     ->with(['categoryFilters.titleTranslate', 'categoryFilters.filterItems.titleTranslate'])
                     ->withTranslations()
                     ->isActive()
-                    ->isNew()
-                    ->get();
-            });
+                    ->get();;
 
             $featureItemIds = $this->getProductFeatureItemIds($request->feature_item_ranges ?? [], $request->language);
 
@@ -66,13 +62,10 @@ class CategoryController extends Controller
                 ->with(['titleTranslate'])
                 ->paginate(20);
 
-            $seoPage = cache()->remember('apiSeoCatalog', SeoPage::CACHE_TIME, function () {
-                return SeoPage::query()->withMetaTranslations()->wherePage('catalog')->first();
-            });
+            $seoPage = SeoPage::query()->withMetaTranslations()->wherePage('catalog')->first();
             
             return new JsonResponse([
                 'categories' => CategoryResource::collection($newCategories),
-                'products' => new ResourcePaginator(CategoryProductResource::collection($products)),
                 'seoPage' => $seoPage ? new SeoPageResource($seoPage) : null
             ]);
         } catch (\Exception $exception) {

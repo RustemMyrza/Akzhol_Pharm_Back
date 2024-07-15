@@ -25,6 +25,7 @@ Route::prefix('admin')->name('admin.')->scopeBindings()->group(function () {
     });
 
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except('show');
+    Route::resource('promotions', \App\Http\Controllers\Admin\CategoryController::class)->except('show');
     Route::prefix('categories/{category}')
         ->name('categories.')
         ->group(function () {

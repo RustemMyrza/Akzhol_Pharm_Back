@@ -26,15 +26,20 @@
             <div class="select2-purple">
                 <select name="category_id" id="category_id" class="form-control select2"
                         style="width: 100%;">
+                    <option value="" {{ isset($product) && is_null($product->category_id) ? 'selected' : '' }}>
+                        Не указано
+                    </option>
+
                     @forelse($categories as $category)
                         <option {{ isset($product) && $category->id == $product->category_id ? 'selected'
-                                        : (old('category_id') && old('category_id') == $category->id  ? 'selected' : '') }}
+                                : (old('category_id') && old('category_id') == $category->id  ? 'selected' : '') }}
                                 value="{{ $category->id }}" class="text-bold">
                             {{ $category->titleTranslate?->ru }}
                         </option>
                     @empty
                         <option selected disabled>Категорий не найдены</option>
                     @endforelse
+
                 </select>
             </div>
         </div>
@@ -49,7 +54,7 @@
                     <option value="">Не выбрать</option>
                     @forelse($subCategories as $subCategory)
                         <option {{ isset($product) && $product->sub_category_id && $subCategory->id == $product->sub_category_id ? 'selected'
-                                            : (old('sub_category_id') && old('sub_category_id') == $subCategory->id  ? 'selected' : '') }}
+                                            : (old('sub_category_id') == $subCategory->id  ? 'selected' : '') }}
                                 value="{{ $subCategory->id }}" class="text-bold">
                             {{ $subCategory->titleTranslate?->ru }}
                         </option>
@@ -122,6 +127,19 @@
 
     <div class="col-md-12">
         <div class="form-group">
+            <label for="checkbox">Акция: </label>
+            <br>
+            <label class="checkbox-label">
+                <input id="checkbox" class="checkbox cb cb1" type="checkbox" name="is_promotional" value="1"
+                        {{ isset($product) ? ($product->is_promotional == 1 ? 'checked' : '') : '' }} />
+                <i></i>
+                <span>Показать</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="form-group">
             <label for="checkbox">Видимость: </label>
             <br>
             <label class="checkbox-label">
@@ -133,12 +151,12 @@
         </div>
     </div>
 
-    <div class="col-md-6 d-none">
+    <div class="col-md-12">
         <div class="form-group">
             <label for="checkbox2">Новинки: </label>
             <br>
             <label class="checkbox-label">
-                <input id="checkbox2" class="checkbox cb cb1" type="checkbox" name="is_new" value="1"
+                <input id="checkbox" class="checkbox cb cb1" type="checkbox" name="is_new" value="1"
                         {{ isset($product) ? ($product->is_new == 1 ? 'checked' : '') : 'checked' }} />
                 <i></i>
                 <span>Активный</span>

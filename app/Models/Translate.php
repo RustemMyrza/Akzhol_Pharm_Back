@@ -40,6 +40,6 @@ class Translate extends Model
     ];
 
     const LANGUAGES = ['ru', 'en', 'kz'];
-    const LANGUAGES_ASSOC = ['ru' => 'Русский текст', 'en' => 'Англисикий текст', 'kz' => 'Казахский текст'];
+    const LANGUAGES_ASSOC = ['ru' => 'Текст на русском', 'en' => 'Текст на английском', 'kz' => 'Текст на казахском'];
     const DEFAULT_LANG = 'ru';
 }
