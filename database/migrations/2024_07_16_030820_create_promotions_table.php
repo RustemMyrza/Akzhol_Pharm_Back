@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('discount_amount')->nullable();
             $table->string('description')->nullable();
+            // $table->foreignId('')->nullable()->constrained('translates')->nullOnDelete();
             $table->timestamps();
         });
     }
